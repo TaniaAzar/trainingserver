@@ -1,26 +1,23 @@
 package by.training.server;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.util.Map;
-
 public class Person {
 
     private String name;
 
-    public Person(String string) throws ScriptException {
-        ScriptEngine engine;
-        ScriptEngineManager sem = new ScriptEngineManager();
-        engine = sem.getEngineByName("js");
-        String script = "Java.asJSONCompatible(" + string + ")";
-        Object result = engine.eval(script);
-
-        Map<String, String> contents = (Map) result;
-        this.name = contents.get("name");
+    public void jsonString(String string){
+        String[] item = string.split("\\\"");
+        for (int i = 1 ; i < item.length - 2; i+=2) {
+            if(item[i].equals("name")){
+                setName(item[i+2]);
+            }
+        }
     }
 
     public String getName(){
         return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

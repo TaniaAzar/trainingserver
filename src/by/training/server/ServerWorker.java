@@ -29,12 +29,13 @@ public class ServerWorker extends Thread {
         DataOutputStream outToClient = new DataOutputStream(clientSocket.getOutputStream());
 
         String clientLine = inFromClient.readLine();
-        Person person = new Person(clientLine);
-        String name = person.getName();
+        Person person = new Person();
+        person.jsonString(clientLine);
+
         System.out.println(clientLine);
 
         Thread.sleep(1000);
-        String outServerLine = "{\"message\":\"Hello, " + name + "\"}\n";
+        String outServerLine = "{\"message\":\"Hello, " + person.getName() + "\"}\n";
 
         outToClient.writeBytes(outServerLine);
         clientSocket.close();
